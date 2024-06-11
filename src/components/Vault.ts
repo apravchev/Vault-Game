@@ -1,21 +1,31 @@
 import { Assets, Container, Sprite, Texture } from "pixi.js";
+import Game from "../core/Game";
+import Background from "../sprites/Background";
+import Door from "../sprites/Door";
+import Handle from "../sprites/Handle";
 
 export default class Vault extends Container {
-  private background: Sprite;
-  private door: Sprite;
-  private handle: {
-    shadow: Sprite;
-    real: Sprite;
-  };
+  private background: Background;
+  private door: Door;
+  private game: Game;
+  private handle: Handle;
 
-  constructor() {
+  constructor(game: Game) {
     super();
-    this.background = new Sprite(Texture.from("bg"));
-    this.door = new Sprite(Texture.from("door"));
-    this.handle = {
-      shadow: new Sprite(Texture.from("handle_shadow")),
-      real: new Sprite(Texture.from("handle")),
-    };
+    this.game = game;
+    this.background = new Background();
+    this.door = new Door();
+    this.handle = new Handle();
+    this.setupPositions();
+    this.setupInteractions();
   }
+  setupPositions() {
+    this.background.addChild(this.door);
+    this.addChild(this.background);
+    this.addChild(this.door);
+    this.addChild(this.handle);
+  }
+
+  setupInteractions() {}
   setup() {}
 }
