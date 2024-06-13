@@ -28,4 +28,11 @@ export default class Vault extends Container {
   onResize() {
     this.background.onResize();
   }
+  onWheelSpin(input: number) {
+    this.game.addNumber(input);
+  }
+  reset() {}
+  onVictory() {
+    this.handle.visible = false;
+  }
 }

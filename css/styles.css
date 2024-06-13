@@ -10,3 +10,13 @@ body {
   width: 100vw;
   transform: scale(var(--scale));
 }
+@media screen and (max-width: 500px) {
+  #display {
+    --scale: 2;
+  }
+}
+@media screen and (max-width: 1920px) and (min-width: 500px) {
+  #display {
+    --scale: 1.3;
+  }
+}

@@ -5,14 +5,31 @@ export default class Game {
   private app: Application;
   private vault!: Vault;
   private combination: number[] = [];
+  private input: number[] = [];
   constructor(application: Application) {
     this.app = application;
     window.addEventListener("resize", () => {
       this.onResize();
     });
   }
-  generateCombination() {
+  private reset() {
+    console.clear();
+    this.generateCombination();
+    this.input = [];
+  }
+  private counterToString(counter: number[]) {
     let comboString = "";
+    counter.forEach((num: number, i: number) => {
+      {
+        comboString +=
+          Math.abs(num) +
+          (num > 0 ? " clockwise" : " counterclockwise") +
+          (i < 2 ? ", " : "");
+      }
+    });
+    console.log(comboString);
+  }
+  private generateCombination() {
     for (let i = 0; i < 3; i++) {
       let randomNumber;
       do {
@@ -20,12 +37,22 @@ export default class Game {
       } while (randomNumber === 0); // Repeat if the number is 0
 
       this.combination[i] = randomNumber;
-      comboString +=
-        Math.abs(randomNumber) +
-        (randomNumber > 0 ? " clockwise" : " counterclockwise") +
-        (i < 2 ? ", " : "");
     }
-    console.log(comboString);
+    this.counterToString(this.combination);
+  }
+  addNumber(num: number) {
+    this.input.push(num);
+    if (num !== this.combination[this.input.length - 1]) {
+      this.reset();
+    } else {
+      this.counterToString(this.input);
+    }
+    if (this.input.length >= 3) {
+      this.onVictory();
+    }
+  }
+  private onVictory() {
+    this.vault.onVictory();
   }
   async onResize() {
     this.app.stage.x = window.innerWidth / 2;
@@ -37,7 +64,7 @@ export default class Game {
     await this.loadAssets();
     this.vault = new Vault(this);
     this.app.stage.addChild(this.vault);
-    this.generateCombination();
+    this.reset();
     this.onResize();
   }
   private async loadAssets() {
