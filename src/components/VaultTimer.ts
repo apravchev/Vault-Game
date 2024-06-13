@@ -1,7 +1,7 @@
 import { Container, Text, Ticker } from "pixi.js";
 
 export default class VaultTimer extends Container {
-  private ticker!: Ticker;
+  private ticker?: Ticker;
   private text: Text;
   private time: number;
   constructor() {
@@ -19,6 +19,12 @@ export default class VaultTimer extends Container {
   }
   setup() {
     this.addChild(this.text);
+    this.ticker = new Ticker();
+    this.ticker.start();
+    this.ticker.add((ticker) => {
+      this.time += (1 / 60) * ticker.deltaTime;
+      this.updateVisualTimer();
+    });
   }
   updateVisualTimer() {
     let totalSeconds = Math.floor(this.time);
@@ -28,22 +34,15 @@ export default class VaultTimer extends Container {
 
     this.text.text = `${minutes}:${seconds}`;
   }
-  start() {
-    if (this.ticker) {
-      this.ticker.destroy();
-    }
-    this.ticker = new Ticker();
-    this.ticker.start();
-    this.ticker.add((ticker) => {
-      this.time += (1 / 60) * ticker.deltaTime;
-      this.updateVisualTimer();
-    });
+  private start() {
+    this.ticker?.start();
   }
   stop() {
-    this.ticker.destroy();
+    this.ticker?.stop();
   }
   reset() {
     this.time = 0;
     this.updateVisualTimer();
+    this.start();
   }
 }
