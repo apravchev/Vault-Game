@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application, Assets, Ticker } from "pixi.js";
 import Vault from "../components/Vault";
 
 export default class Game {
@@ -15,6 +15,7 @@ export default class Game {
   private reset() {
     console.clear();
     this.generateCombination();
+    this.vault.reset();
     this.input = [];
   }
   private counterToString(counter: number[]) {
@@ -53,6 +54,17 @@ export default class Game {
   }
   private onVictory() {
     this.vault.onVictory();
+    let seconds = 0;
+    const ticker = new Ticker();
+    ticker.add((ticker: Ticker) => {
+      seconds += (1 / 60) * ticker.deltaTime;
+      if (seconds >= 6) {
+        seconds = 0;
+        this.reset();
+        ticker.destroy();
+      }
+    });
+    ticker.start();
   }
   async onResize() {
     this.app.stage.x = window.innerWidth / 2;
@@ -69,8 +81,6 @@ export default class Game {
   }
   private async loadAssets() {
     Assets.backgroundLoad("/assets/blink.png");
-    Assets.backgroundLoad("/assets/doorOpen.png");
-    Assets.backgroundLoad("/assets/doorOpenShadow.png");
     return Promise.all([
       Assets.load({
         alias: "bg",
@@ -87,6 +97,14 @@ export default class Game {
       Assets.load({
         alias: "handle_shadow",
         src: "/assets/handleShadow.png",
+      }),
+      Assets.load({
+        alias: "open_door",
+        src: "/assets/doorOpen.png",
+      }),
+      Assets.load({
+        alias: "open_door_shadow",
+        src: "/assets/doorOpenShadow.png",
       }),
     ]);
   }

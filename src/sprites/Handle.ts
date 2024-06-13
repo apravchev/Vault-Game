@@ -62,7 +62,6 @@ export default class Handle extends Container {
 
   private setup() {
     this.setupPosition();
-
     this.sprite.on("pointerdown", (e) => {
       this.startGrab();
     });
