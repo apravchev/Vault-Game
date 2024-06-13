@@ -1,5 +1,6 @@
 import { Container, Sprite, Texture } from "pixi.js";
 import gsap from "gsap";
+import Vault from "../components/Vault";
 
 export default class Handle extends Container {
   private container: Vault;
@@ -44,7 +45,9 @@ export default class Handle extends Container {
   private endGrab() {
     this.sprite.cursor = "grab";
     this.isGrabbed = false;
-    console.log("Spin count: " + this.spinCounter);
+    if (this.spinCounter != 0) {
+      this.container.onWheelSpin(this.spinCounter);
+    }
     gsap.to([this.sprite, this.shadow], {
       pixi: {
         rotation: 0,
@@ -73,6 +76,7 @@ export default class Handle extends Container {
       if (this.isGrabbed) {
         this.calcPosition(e.data.global.x, e.data.global.y);
         this.updateRotation();
+        console.log(this.spinCounter);
       }
     });
   }
@@ -111,7 +115,9 @@ export default class Handle extends Container {
 
     // Update spinCounter based on 60-degree increments
     if (Math.abs(this.currentAngle) >= 60) {
-      let increments = Math.floor(this.currentAngle / 60);
+      let increments =
+        Math.sign(this.currentAngle) *
+        Math.floor(Math.abs(this.currentAngle) / 60);
       this.spinCounter += increments;
       this.currentAngle -= increments * 60; // Normalize the current angle within the 0-60 range
     }
