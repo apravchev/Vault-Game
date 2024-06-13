@@ -80,7 +80,6 @@ export default class Game {
     this.onResize();
   }
   private async loadAssets() {
-    Assets.backgroundLoad("/assets/blink.png");
     return Promise.all([
       Assets.load({
         alias: "bg",
@@ -105,6 +104,10 @@ export default class Game {
       Assets.load({
         alias: "open_door_shadow",
         src: "/assets/doorOpenShadow.png",
+      }),
+      Assets.load({
+        alias: "blink",
+        src: "/assets/blink.png",
       }),
     ]);
   }
