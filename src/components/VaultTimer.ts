@@ -29,6 +29,9 @@ export default class VaultTimer extends Container {
     this.text.text = `${minutes}:${seconds}`;
   }
   start() {
+    if (this.ticker) {
+      this.ticker.destroy();
+    }
     this.ticker = new Ticker();
     this.ticker.start();
     this.ticker.add((ticker) => {
