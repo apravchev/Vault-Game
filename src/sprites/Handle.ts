@@ -9,8 +9,8 @@ export default class Handle extends Container {
   private spinCounter = 0;
   private previousAngle = 0;
   private currentAngle = 0;
-  private wheelX: number;
-  private wheelY: number;
+  private wheelX: number = 0;
+  private wheelY: number = 0;
   private angleThreshold = 1; // Small threshold to ignore minor movements
 
   constructor(container: Vault) {

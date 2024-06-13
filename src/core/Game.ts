@@ -12,20 +12,32 @@ export default class Game {
     });
   }
   generateCombination() {
+    let comboString = "";
     for (let i = 0; i < 3; i++) {
-      this.combination[i] = Math.random() * 9;
+      let randomNumber;
+      do {
+        randomNumber = Math.floor(Math.random() * 19) - 9; // Generates numbers from -9 to 9 inclusive
+      } while (randomNumber === 0); // Repeat if the number is 0
+
+      this.combination[i] = randomNumber;
+      comboString +=
+        Math.abs(randomNumber) +
+        (randomNumber > 0 ? " clockwise" : " counterclockwise") +
+        (i < 2 ? ", " : "");
     }
+    console.log(comboString);
   }
   async onResize() {
     this.app.stage.x = window.innerWidth / 2;
     this.app.stage.y = window.innerHeight / 2;
+
     this.vault.onResize();
   }
   async startUp() {
     await this.loadAssets();
     this.vault = new Vault(this);
     this.app.stage.addChild(this.vault);
-
+    this.generateCombination();
     this.onResize();
   }
   private async loadAssets() {

@@ -21,8 +21,8 @@ export default class Vault extends Container {
   setupPositions() {
     this.onResize();
     this.addChild(this.background);
-    this.background.addChild(this.door);
-    this.door.addChild(this.handle);
+    this.addChild(this.door);
+    this.addChild(this.handle);
   }
   setupInteractions() {}
   onResize() {
