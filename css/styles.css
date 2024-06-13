@@ -5,3 +5,8 @@ body {
   margin: 0;
   overflow: hidden;
 }
+#display {
+  height: 100vh;
+  width: 100vw;
+  transform: scale(var(--scale));
+}

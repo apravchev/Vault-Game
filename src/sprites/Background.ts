@@ -1,18 +1,29 @@
-import { Container, Sprite, Texture } from "pixi.js";
+import { Container, Rectangle, Sprite, Texture, TextureSource } from "pixi.js";
+import BaseSprite from "./BaseSprite";
 
-export default class Background extends Container {
-  sprite: Sprite;
-  constructor() {
+export default class Background extends Container implements BaseSprite {
+  private sprite: Sprite;
+  private container: Container;
+  private texture: Texture;
+  constructor(container: Container) {
     super();
-    this.sprite = new Sprite(Texture.from("bg"));
-    this.setupPosition();
+    this.container = container;
+    this.texture = Texture.from("bg");
+    this.sprite = new Sprite({
+      texture: this.texture,
+      anchor: 0.5,
+    });
+    this.setup();
   }
-  setupPosition() {
-    this.sprite.height = window.innerHeight;
-    this.sprite.width = window.innerWidth;
-    this.sprite.anchor.set(0.5, 0.5);
-    this.sprite.x = window.innerWidth / 2;
-    this.sprite.y = window.innerHeight / 2;
+  onResize() {
+    this.container.scale = window.innerWidth / this.texture.width;
+    console.log(this.container);
+  }
+  setup() {
+    this.onResize();
     this.addChild(this.sprite);
+  }
+  getScale() {
+    return this.sprite.scale;
   }
 }

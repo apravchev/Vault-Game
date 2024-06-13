@@ -1,22 +1,28 @@
 import { Container, Sprite, Texture } from "pixi.js";
+import BaseSprite from "./BaseSprite";
 
-export default class Handle extends Container {
-  sprite: Sprite;
-  shadow: Sprite;
-  constructor() {
+export default class Handle extends Container implements BaseSprite {
+  private container: Container;
+  private sprite: Sprite;
+  private shadow: Sprite;
+  constructor(container: Container) {
     super();
-    this.sprite = new Sprite(Texture.from("handle"));
-    this.shadow = new Sprite(Texture.from(""));
+    this.container = container;
+    this.sprite = new Sprite({
+      texture: Texture.from("handle"),
+      anchor: { x: 0.53, y: 0.55 },
+    });
+    this.shadow = new Sprite({
+      texture: Texture.from("handle_shadow"),
+      anchor: { x: 0.5, y: 0.53 },
+    });
     this.setupPosition();
   }
   setupPosition() {
-    this.sprite.anchor.set(0.5, 0.5);
-    this.shadow.anchor.set(0.51, 0.51);
-    this.sprite.x = window.innerWidth / 2;
-    this.sprite.y = window.innerHeight / 2;
-    this.shadow.x = window.innerWidth / 2;
-    this.shadow.y = window.innerHeight / 2;
-    this.addChild(this.sprite);
+    this.onResize();
     this.addChild(this.shadow);
+    this.addChild(this.sprite);
   }
+  setup() {}
+  onResize() {}
 }

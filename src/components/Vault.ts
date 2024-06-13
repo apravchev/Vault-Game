@@ -9,23 +9,25 @@ export default class Vault extends Container {
   private door: Door;
   private game: Game;
   private handle: Handle;
-
   constructor(game: Game) {
     super();
     this.game = game;
-    this.background = new Background();
-    this.door = new Door();
-    this.handle = new Handle();
+    this.background = new Background(this);
+    this.door = new Door(this);
+    this.handle = new Handle(this);
     this.setupPositions();
     this.setupInteractions();
   }
   setupPositions() {
-    this.background.addChild(this.door);
+    this.onResize();
     this.addChild(this.background);
-    this.addChild(this.door);
-    this.addChild(this.handle);
+    this.background.addChild(this.door);
+    this.door.addChild(this.handle);
   }
-
   setupInteractions() {}
-  setup() {}
+  onResize() {
+    this.background.onResize();
+    this.door.onResize();
+    this.handle.onResize();
+  }
 }
