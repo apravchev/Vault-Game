@@ -45,7 +45,7 @@ export default class Vault extends Container {
     this.openVault.visible = false;
     this.door.visible = true;
     this.handle.visible = true;
-    this.handle.eventMode = "dynamic";
+
     gsap.to([this.door, this.handle], {
       pixi: {
         scaleX: 1,
@@ -55,12 +55,22 @@ export default class Vault extends Container {
       onComplete: () => {
         this.openVault.onHide();
         this.vaultTimer.reset();
-        this.vaultTimer.start();
+      },
+    });
+    this.handle.triggerInteractivity(false);
+    gsap.to(this.handle, {
+      pixi: {
+        rotation: 1080,
+      },
+      duration: 1,
+      onComplete: () => {
+        this.handle.triggerInteractivity(true);
+        this.handle.rotation = 0;
       },
     });
   }
   onVictory() {
-    this.handle.eventMode = "none";
+    this.handle.triggerInteractivity(false);
     this.vaultTimer.stop();
     gsap.to([this.door, this.handle], {
       pixi: {

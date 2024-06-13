@@ -29,7 +29,9 @@ export default class Handle extends Container {
 
     this.setup();
   }
-
+  triggerInteractivity(isInteractive: boolean) {
+    this.sprite.interactive = isInteractive;
+  }
   private setupPosition() {
     this.addChild(this.shadow);
     this.addChild(this.sprite);
