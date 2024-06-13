@@ -27,7 +27,5 @@ export default class Vault extends Container {
   setupInteractions() {}
   onResize() {
     this.background.onResize();
-    this.door.onResize();
-    this.handle.onResize();
   }
 }

@@ -1,7 +1,6 @@
 import { Container, Sprite, Texture } from "pixi.js";
-import BaseSprite from "./BaseSprite";
 
-export default class Door extends Container implements BaseSprite {
+export default class Door extends Container {
   private sprite: Sprite;
   private container: Container;
   constructor(container: Container) {
@@ -14,11 +13,7 @@ export default class Door extends Container implements BaseSprite {
     this.setupPosition();
   }
   setupPosition() {
-    this.onResize();
     this.addChild(this.sprite);
   }
-  setup() {
-    this.onResize();
-  }
-  onResize() {}
+  setup() {}
 }

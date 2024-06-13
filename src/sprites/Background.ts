@@ -1,7 +1,6 @@
 import { Container, Rectangle, Sprite, Texture, TextureSource } from "pixi.js";
-import BaseSprite from "./BaseSprite";
 
-export default class Background extends Container implements BaseSprite {
+export default class Background extends Container {
   private sprite: Sprite;
   private container: Container;
   private texture: Texture;
@@ -17,7 +16,6 @@ export default class Background extends Container implements BaseSprite {
   }
   onResize() {
     this.container.scale = window.innerWidth / this.texture.width;
-    console.log(this.container);
   }
   setup() {
     this.onResize();
