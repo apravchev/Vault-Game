@@ -23,10 +23,8 @@ export default class VaultTimer extends Container {
   updateVisualTimer() {
     let totalSeconds = Math.floor(this.time);
     totalSeconds %= 3600;
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = totalSeconds % 60;
-    minutes = String(minutes).padStart(2, "0");
-    seconds = String(seconds).padStart(2, "0");
+    let minutes = ("" + Math.floor(totalSeconds / 60)).padStart(2, "0");
+    let seconds = ("" + (totalSeconds % 60)).padStart(2, "0");
 
     this.text.text = `${minutes}:${seconds}`;
   }
@@ -42,6 +40,7 @@ export default class VaultTimer extends Container {
     this.ticker.destroy();
   }
   reset() {
-    this.text.text = "00:00";
+    this.time = 0;
+    this.updateVisualTimer();
   }
 }
